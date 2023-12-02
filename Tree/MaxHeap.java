@@ -5,80 +5,84 @@ public class MaxHeap {
     int capacity;
 
     MaxHeap(int size) {
-        array= new int [size];
-        capacity=size;
+        array = new int[size];
+        capacity = size;
 
     }
 
     int parent(int index) {
-        return (index-1)/2;
+        return (index - 1) / 2;
     }
 
-    int left (int index) {
-        return 2*index+1;
+    int left(int index) {
+        return 2 * index + 1;
     }
 
-    int right (int index) {
-        return 2*index+2;
+    int right(int index) {
+        return 2 * index + 2;
     }
 
 
     public void shiftup(int i) {
-        while (i>0 && array[parent(i)]<array[i]){
-            swap(parent(i),i);
-            i=parent(i);
+        while (i > 0 && array[parent(i)] < array[i]) {
+            swap(parent(i), i);
+            i = parent(i);
         }
     }
 
+
     public void shiftdown(int i) {
-        int maxindex=i;
-        int l=left(i);
+        int maxindex = i;
+        int l = left(i);
 
-        if(l<size && array[l]>array[maxindex]){
-            maxindex=l;
+        if (l < size && array[l] > array[maxindex]) {
+            maxindex = l;
         }
-        int r=right(i);
+        int r = right(i);
 
-        if(r<size && array[r]>array[maxindex]){
-            maxindex=r;
+        if (r < size && array[r] > array[maxindex]) {
+            maxindex = r;
         }
 
-        if(i!=maxindex){
-            swap(i,maxindex);
+        if (i != maxindex) {
+            swap(i, maxindex);
             shiftdown(maxindex);
         }
     }
 
-    public void insert(int data){
+    public void insert(int data) {
 
-        if(size==capacity){
+        if ((size+1) >= capacity) {
             System.out.println("The Array is Full ");
+            return;
         }
-        size=size+1;
-        array[size]=data;
+
+        size = size + 1;
+        array[size] = data;
+
         shiftup(size);
     }
 
-    public int extract(){
-        int reusult=array[0];
-        array[0]=array[size];
+    public int extract() {
+        int reusult = array[0];
+        array[0] = array[size];
         size--;
         shiftdown(0);
 
         return reusult;
     }
 
-    void remove(int index){
-        array[index]=array[0]+10;
+    void remove(int index) {
+        array[index] = array[0] + 10;
         shiftup(index);
         extract();
     }
 
-    public void changePriority(int oldpriority, int newpriority){
-        int old=array[oldpriority];
-        array[oldpriority]=newpriority;
+    public void changePriority(int oldpriority, int newpriority) {
+        int old = array[oldpriority];
+        array[oldpriority] = newpriority;
 
-        if(newpriority>old)
+        if (newpriority > old)
             shiftup(oldpriority);
 
         else
@@ -91,4 +95,19 @@ public class MaxHeap {
         array[i] = temp;
     }
 
+    public static void main(String[] args) {
+      var maxheap= new MaxHeap(5);
+      maxheap.insert(28);
+      maxheap.insert(43);
+      maxheap.insert(11);
+      maxheap.insert(19);
+      // Inserting the values beyond its capacity
+        maxheap.insert(2);
+        maxheap.insert(1);
+
+
+        // Retrieving the maximum Value
+        System.out.println("Max Heap value is : "+ maxheap.extract());
+
+    }
 }
